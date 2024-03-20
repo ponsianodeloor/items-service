@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,7 +36,20 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDto> allItems() {
-        return null;
+        //return all items
+        List<Item> items = itemRepository.findAll();
+        List<ItemDto> itemDtos = null;
+
+        if (!items.isEmpty()) {
+            ItemDto itemDto = null;
+            itemDtos = new ArrayList<>();
+            for (Item item : items) {
+                itemDto = new ItemDto();
+                BeanUtils.copyProperties(item, itemDto);
+                itemDtos.add(itemDto);
+            }
+        }
+        return itemDtos;
     }
 
     @Override
