@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -54,8 +55,27 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemDto getDetail(Long id) {
-        return null;
+        Item item = itemRepository.findById(id).orElse(null);
+        ItemDto itemDto = null;
+        if (item != null) {
+            itemDto = new ItemDto();
+            BeanUtils.copyProperties(item, itemDto);
+        }
+        return itemDto;
     }
+
+    @Override
+    public ItemDto getDetailOptional(Long id) {
+        Optional<Item> item = itemRepository.findById(id);
+        ItemDto itemDto = null;
+        if(item.isPresent()){
+            itemDto = new ItemDto();
+            BeanUtils.copyProperties(item.get(), itemDto);
+            //itemDto.setId(item.get().getId());
+        }
+        return itemDto;
+    }
+
 
     @Override
     public ItemDto updateItem(Long id, ItemDto itemDto) {

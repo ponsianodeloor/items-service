@@ -37,6 +37,13 @@ public class ItemController {
         return ResponseEntity.status(200).body(item);
     }
 
+    //get an item by id using Optional
+    @GetMapping("/optional/{id}")
+    public ResponseEntity<ItemDto> getItemByIdOptional(@PathVariable("id") Long id){
+        ItemDto item = itemService.getDetailOptional(id);
+        return ResponseEntity.status(200).body(item);
+    }
+
     //put an item
     @PutMapping("/{id}/update")
     public ResponseEntity<ItemDto> updateItem(@PathVariable("id") Long id, @RequestBody ItemDto itemDto) {
