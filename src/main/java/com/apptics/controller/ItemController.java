@@ -38,7 +38,7 @@ public class ItemController {
     }
 
     //get an item by id using Optional
-    @GetMapping("/optional/{id}")
+    @GetMapping("{id}/optional")
     public ResponseEntity<ItemDto> getItemByIdOptional(@PathVariable("id") Long id){
         ItemDto item = itemService.getDetailOptional(id);
         return ResponseEntity.status(200).body(item);
@@ -51,6 +51,13 @@ public class ItemController {
         return ResponseEntity.status(200).body(item);
     }
 
+    //patch an item
+    @PatchMapping("/name/{id}/update") //partial update of an item title
+    public ResponseEntity<ItemDto> patchItemTitle(@PathVariable Long id,@RequestBody ItemDto itemDto) {
+        itemDto = itemService.updateItemName(id, itemDto);
+        return ResponseEntity.status(200).body(itemDto);
+    }
+
     //delete an item by id and name example: /api/v1/items/1?name=apple
     @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteItem(@RequestParam Long id) {
@@ -59,10 +66,4 @@ public class ItemController {
         return response;
     }
 
-    //patch an item
-    @PatchMapping("/title/{id}/update") //partial update of an item title
-    public ResponseEntity<ItemDto> patchItemTitle(@PathVariable Long id,@RequestBody ItemDto itemDto) {
-        itemDto = itemService.updateItemTitle(id, itemDto);
-        return ResponseEntity.status(200).body(itemDto);
-    }
 }

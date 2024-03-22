@@ -76,19 +76,37 @@ public class ItemServiceImpl implements ItemService {
         return itemDto;
     }
 
-
     @Override
     public ItemDto updateItem(Long id, ItemDto itemDto) {
-        return null;
+        Optional<Item> optionalItem = itemRepository.findById(id);
+        if(optionalItem.isPresent()){
+            Item item = optionalItem.get();
+            item.setName(itemDto.getName());
+            item.setDescription(itemDto.getDescription());
+            item.setPrice(itemDto.getPrice());
+            item.setImageUrl(itemDto.getImageUrl());
+            item.setUpdatedAt(LocalDateTime.now());
+            itemRepository.save(item);
+            BeanUtils.copyProperties(item, itemDto);
+        }
+        return itemDto;
     }
 
     @Override
-    public ItemDto updateItemTitle(Long id, ItemDto itemDto) {
-        return null;
+    public ItemDto updateItemName(Long id, ItemDto itemDto) {
+        Optional<Item> optionalItem = itemRepository.findById(id);
+        if(optionalItem.isPresent()){
+            Item item = optionalItem.get();
+            item.setName(itemDto.getName());
+            item.setUpdatedAt(LocalDateTime.now());
+            itemRepository.save(item);
+            BeanUtils.copyProperties(item, itemDto);
+        }
+        return itemDto;
     }
 
     @Override
     public void deleteItem(Long id) {
-
+        itemRepository.deleteById(id);
     }
 }
