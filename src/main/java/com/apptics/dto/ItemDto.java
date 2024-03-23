@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 //annotation for ignore the unknown properties in the response
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-
 public class ItemDto {
     private Long id;
     private String name;
