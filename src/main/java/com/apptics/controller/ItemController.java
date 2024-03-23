@@ -37,6 +37,19 @@ public class ItemController {
         return ResponseEntity.status(200).body(item);
     }
 
+    //search items by name
+    @GetMapping("/search-items-by-name")
+    public ResponseEntity<List<ItemDto>> searchItemsByName(@RequestParam String name){
+        List<ItemDto> items = itemService.searchItemsByName(name);
+        return ResponseEntity.status(200).body(items);
+    }
+
+    @GetMapping("/search-items-by-name-converter")
+    public ResponseEntity<List<ItemDto>> searchItemsByNameWithConverter(@RequestParam String name){
+        List<ItemDto> items = itemService.searchItemsByNameWithConverter(name);
+        return ResponseEntity.status(200).body(items);
+    }
+
     //get an item by id using Optional
     @GetMapping("{id}/optional")
     public ResponseEntity<ItemDto> getItemByIdOptional(@PathVariable("id") Long id){

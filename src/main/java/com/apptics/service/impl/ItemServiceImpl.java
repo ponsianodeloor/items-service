@@ -1,5 +1,6 @@
 package com.apptics.service.impl;
 
+import com.apptics.converter.ItemConverter;
 import com.apptics.dto.ItemDto;
 import com.apptics.model.Item;
 import com.apptics.repository.ItemRepository;
@@ -18,6 +19,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private ItemRepository itemRepository;
+    @Autowired
+    private ItemConverter itemConverter;
 
     @Override
     public ItemDto addItem(ItemDto itemDto) {
@@ -52,6 +55,40 @@ public class ItemServiceImpl implements ItemService {
         }
         return itemDtos;
     }
+
+    @Override
+    public List<ItemDto> searchItemsByName(String name) {
+        List<Item> items = itemRepository.findAllByNameContains(name);
+        System.out.println(name);
+        List<ItemDto> itemDtos = null;
+
+        if (!items.isEmpty()) {
+            ItemDto itemDto = null;
+            itemDtos = new ArrayList<>();
+            for (Item item : items) {
+                itemDto = new ItemDto();
+                BeanUtils.copyProperties(item, itemDto);
+                itemDtos.add(itemDto);
+            }
+        }
+        return itemDtos;
+    }
+
+    @Override
+    public List<ItemDto> searchItemsByNameWithConverter(String name) {
+        List<Item> items = itemRepository.findAllByNameContains(name);
+        System.out.println(name);
+        List<ItemDto> itemDtos = null;
+
+        if (!items.isEmpty()) {
+            itemDtos = new ArrayList<>();
+            for (Item item : items) {
+                itemDtos.add(itemConverter.convertEntity2Dto(item));
+            }
+        }
+        return itemDtos;
+    }
+
 
     @Override
     public ItemDto getDetail(Long id) {
