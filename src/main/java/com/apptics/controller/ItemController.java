@@ -54,6 +54,11 @@ public class ItemController {
     //patch an item
     @PatchMapping("/name/{id}/update") //partial update of an item title
     public ResponseEntity<ItemDto> patchItemTitle(@PathVariable Long id,@RequestBody ItemDto itemDto) {
+        //validate if the item name is not null
+        if(itemDto.getName() == null){
+            return ResponseEntity.status(400).body(itemDto);
+        }
+
         itemDto = itemService.updateItemName(id, itemDto);
         return ResponseEntity.status(200).body(itemDto);
     }
