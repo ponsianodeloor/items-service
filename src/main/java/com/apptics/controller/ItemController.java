@@ -81,7 +81,7 @@ public class ItemController {
     @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteItem(@RequestParam Long id) {
         itemService.deleteItem(id);
-        ResponseEntity<Void> response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        ResponseEntity<Void> response = new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return response;
     }
 
